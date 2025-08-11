@@ -1,0 +1,314 @@
+/* Custom CSS for Portfolio Builder */
+
+/* Template card styling */
+.template-card {
+    cursor: pointer;
+    padding: 8px;
+    border: 2px solid transparent;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.template-card:hover {
+    border-color: #e5e7eb;
+    background-color: #f9fafb;
+}
+
+.template-card.active {
+    border-color: #3b82f6;
+    background-color: #eff6ff;
+}
+
+.template-card.active .template-preview {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Tab styling */
+.tab-btn {
+    position: relative;
+    border-bottom: 2px solid transparent;
+}
+
+.tab-btn.active {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+}
+
+.tab-content {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form styling */
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    ring: 2px;
+    ring-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+/* Skill item styling */
+.skill-item {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.skill-item:hover {
+    border-color: #d1d5db;
+}
+
+/* Project card styling */
+.project-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+}
+
+.project-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* Experience card styling */
+.experience-card {
+    background: #fefefe;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+}
+
+/* Education card styling */
+.education-card {
+    background: #fafafa;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 20px;
+    position: relative;
+}
+
+/* Social link item styling */
+.social-item {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+/* Remove button styling */
+.remove-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.remove-btn:hover {
+    background: #dc2626;
+}
+
+/* Proficiency slider */
+.proficiency-slider {
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: #e5e7eb;
+    outline: none;
+}
+
+.proficiency-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+}
+
+.proficiency-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3b82f6;
+    cursor: pointer;
+    border: none;
+}
+
+/* Preview templates */
+.portfolio-preview {
+    transition: all 0.3s ease;
+}
+
+/* Modern template styles */
+.template-modern {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.template-modern .section {
+    background: white;
+    color: #333;
+    margin: 20px;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Minimal template styles */
+.template-minimal {
+    background: #ffffff;
+    color: #333;
+    font-family: 'Georgia', serif;
+}
+
+.template-minimal .section {
+    padding: 40px 20px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Creative template styles */
+.template-creative {
+    background: #f7fafc;
+    color: #2d3748;
+}
+
+.template-creative .section {
+    margin: 20px;
+    padding: 30px;
+    background: white;
+    border-left: 4px solid #ed8936;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Professional template styles */
+.template-professional {
+    background: #f8f9fa;
+    color: #212529;
+}
+
+.template-professional .header {
+    background: #343a40;
+    color: white;
+    padding: 40px 20px;
+}
+
+.template-professional .section {
+    padding: 30px 20px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* Developer template styles */
+.template-developer {
+    background: #0d1117;
+    color: #c9d1d9;
+    font-family: 'Monaco', 'Menlo', monospace;
+}
+
+.template-developer .section {
+    margin: 20px;
+    padding: 20px;
+    background: #21262d;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+}
+
+/* Template base styles */
+.template-modern { background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); }
+.template-minimal { background: #ffffff; }
+.template-creative { background: #f9fafb; }
+.template-professional { background: #f6f7f9; }
+.template-developer { background: #0b1220; color: #d0d7e2; }
+
+.project-card, .experience-item, .education-item, .social-item, .skill-item, .certification-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.remove-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 9999px;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+.remove-btn:hover { background: #ef4444; color: white; }
+
+.proficiency-slider { -webkit-appearance: none; height: 0.5rem; background: #e5e7eb; border-radius: 9999px; }
+.proficiency-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 1rem; height: 1rem; background: #3b82f6; border-radius: 9999px; cursor: pointer; }
+
+/* Template accents */
+.template-modern .accent { color: #111827; }
+.template-creative .accent { color: #db2777; }
+.template-professional .accent { color: #334155; }
+.template-developer .accent { color: #10b981; }
+
+/* Gallery grid */
+.gallery-tile { border-radius: 0.5rem; overflow: hidden; border: 1px solid #e5e7eb; }
+
+/* Logo pill */
+.logo-pill { border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem 0.75rem; background: #fff; display: inline-flex; align-items: center; gap: 0.5rem; }
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+    
+    #form-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    .template-selector {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: 16px;
+    }
+    
+    .tab-btn {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    .template-card {
+        padding: 6px;
+    }
+    
+    .template-preview {
+        height: 80px;
+    }
+}
