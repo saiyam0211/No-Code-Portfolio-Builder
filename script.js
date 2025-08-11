@@ -1000,32 +1000,36 @@ class PortfolioBuilder {
     // Section helpers (reused across templates)
     sectionAbout(extraWrapClasses = '') {
         const d = this.portfolioData;
+        const t = this.getTheme();
         if (!(d.sectionVisibility.about && (d.about.description || d.about.skills.length || d.about.certifications.length))) return '';
+        const progressColor = this.currentTemplate === 'developer'
+            ? 'bg-emerald-500'
+            : (this.currentTemplate === 'creative' ? 'bg-pink-500' : 'bg-blue-500');
         return `
         <section class="${extraWrapClasses} max-w-6xl mx-auto px-6 py-10">
-            <h2 class="text-2xl font-bold mb-6">About Me</h2>
-            ${d.about.description ? `<p class=\"text-gray-700 mb-6\">${d.about.description}</p>` : ''}
+            <h2 class="text-2xl font-bold mb-6 ${t.heading}">About Me</h2>
+            ${d.about.description ? `<p class="${t.muted} mb-6">${d.about.description}</p>` : ''}
             ${d.about.skills.length ? `
-            <div class=\"mb-8\">
-                <h3 class=\"text-xl font-semibold mb-4\">Skills</h3>
-                <div class=\"grid grid-cols-1 md:grid-cols-2 gap-4\">
+            <div class="mb-8">
+                <h3 class="text-xl font-semibold mb-4 ${t.heading}">Skills</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     ${d.about.skills.map(skill => `
-                        <div>
-                            <div class=\"flex justify-between mb-2\">
-                                <span class=\"font-medium\">${skill.name}</span>
-                                <span class=\"text-sm text-gray-600\">${skill.proficiency}%</span>
+                        <div class="${t.card} p-4 rounded-xl">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium ${t.heading}">${skill.name}</span>
+                                <span class="text-sm ${t.muted}">${skill.proficiency}%</span>
                             </div>
-                            <div class=\"w-full bg-gray-200 rounded-full h-2\">
-                                <div class=\"bg-blue-500 h-2 rounded-full\" style=\"width: ${skill.proficiency}%\"></div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="${progressColor} h-2 rounded-full" style="width: ${skill.proficiency}%"></div>
                             </div>
                         </div>`).join('')}
                 </div>
             </div>` : ''}
             ${d.about.certifications.length ? `
             <div>
-                <h3 class=\"text-xl font-semibold mb-4\">Certifications</h3>
-                <ul class=\"list-disc pl-6 space-y-1 text-gray-700\">
-                    ${d.about.certifications.map(c => `<li><span class='font-medium'>${c.name}</span>${c.issuer ? ` — ${c.issuer}` : ''}${c.year ? ` (${c.year})` : ''}</li>`).join('')}
+                <h3 class="text-xl font-semibold mb-4 ${t.heading}">Certifications</h3>
+                <ul class="list-disc pl-6 space-y-1 ${t.muted}">
+                    ${d.about.certifications.map(c => `<li><span class='font-medium ${t.heading}'>${c.name}</span>${c.issuer ? ` — ${c.issuer}` : ''}${c.year ? ` (${c.year})` : ''}</li>`).join('')}
                 </ul>
             </div>` : ''}
         </section>`;
@@ -1039,32 +1043,48 @@ class PortfolioBuilder {
                     surface: 'bg-[#0b1220] text-[#d0d7e2]',
                     heading: 'text-white',
                     muted: 'text-[#93a1b5]',
-                    card: 'bg-[#111827] border border-[#1f2937] text-[#d0d7e2] shadow-sm',
-                    pill: 'bg-[#111827] text-[#d0d7e2] border border-[#1f2937]'
+                    card: 'bg-[#111827] border border-[#1f2937] text-[#d0d7e2] shadow-sm rounded-xl',
+                    pill: 'bg-[#0b1220] text-[#d0d7e2] border border-[#1f2937] hover:bg-[#111827] transition',
+                    link: 'text-[#58a6ff] hover:text-white transition-colors',
+                    cardHover: 'hover:shadow-md hover:-translate-y-0.5 transition-transform',
+                    badge: 'bg-emerald-900/40 text-emerald-300',
+                    quote: 'border-l-4 border-[#1f2937] pl-4'
                 };
             case 'creative':
                 return {
                     surface: 'bg-gradient-to-br from-pink-50 to-orange-50 text-slate-800',
                     heading: 'text-slate-900',
                     muted: 'text-slate-600',
-                    card: 'bg-white border border-orange-100 shadow-sm',
-                    pill: 'bg-white text-pink-600 border border-pink-200'
+                    card: 'bg-white border border-orange-100 shadow-sm rounded-xl',
+                    pill: 'bg-white text-pink-600 border border-pink-200 hover:bg-pink-50 transition',
+                    link: 'text-pink-600 hover:text-pink-700 transition-colors',
+                    cardHover: 'hover:shadow-md hover:-translate-y-0.5 transition-transform',
+                    badge: 'bg-white/30 text-white shadow',
+                    quote: 'border-l-4 border-pink-200 pl-4'
                 };
             case 'professional':
                 return {
                     surface: 'bg-slate-50 text-slate-800',
                     heading: 'text-slate-900',
                     muted: 'text-slate-600',
-                    card: 'bg-white border border-slate-200 shadow-sm',
-                    pill: 'bg-white text-slate-700 border border-slate-300'
+                    card: 'bg-white border border-slate-200 shadow-sm rounded-xl',
+                    pill: 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition',
+                    link: 'text-slate-700 hover:text-slate-900 transition-colors',
+                    cardHover: 'hover:shadow-md hover:-translate-y-0.5 transition-transform',
+                    badge: 'bg-blue-50 text-blue-700',
+                    quote: 'border-l-4 border-slate-200 pl-4'
                 };
             case 'minimal':
                 return {
                     surface: 'bg-white text-slate-800',
                     heading: 'text-slate-900',
                     muted: 'text-slate-600',
-                    card: 'bg-white border border-slate-200',
-                    pill: 'bg-white text-slate-700 border border-slate-300'
+                    card: 'bg-white border border-slate-200 rounded-xl',
+                    pill: 'bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition',
+                    link: 'text-slate-800 underline underline-offset-4 hover:text-black',
+                    cardHover: 'hover:shadow-sm transition',
+                    badge: 'bg-slate-100 text-slate-700',
+                    quote: 'border-l-4 border-slate-200 pl-4'
                 };
             case 'modern':
             default:
@@ -1072,8 +1092,12 @@ class PortfolioBuilder {
                     surface: 'bg-gradient-to-b from-white to-slate-50 text-slate-800',
                     heading: 'text-slate-900',
                     muted: 'text-slate-600',
-                    card: 'bg-white border border-slate-200 shadow',
-                    pill: 'bg-blue-600 text-white'
+                    card: 'bg-white border border-slate-200 shadow rounded-xl',
+                    pill: 'bg-blue-600 text-white hover:bg-blue-700 transition',
+                    link: 'text-blue-600 hover:text-blue-700 transition-colors',
+                    cardHover: 'hover:shadow-lg hover:-translate-y-0.5 transition-transform',
+                    badge: 'bg-green-100 text-green-700',
+                    quote: 'border-l-4 border-blue-200 pl-4'
                 };
         }
     }
@@ -1087,13 +1111,13 @@ class PortfolioBuilder {
             <h2 class="text-2xl font-bold mb-6 ${t.heading}">Projects</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 ${d.projects.map(project => `
-                    <div class="rounded-xl p-6 ${t.card}">
-                        <h3 class="text-xl font-semibold mb-2">${project.title}</h3>
+                    <div class="rounded-xl p-6 ${t.card} ${t.cardHover}">
+                        <h3 class="text-xl font-semibold mb-2 ${t.heading}">${project.title}</h3>
                         <p class="${t.muted} mb-4">${project.description}</p>
                         ${project.technologies ? `<p class="text-sm text-blue-600 mb-4"><strong>Tech:</strong> ${project.technologies}</p>` : ''}
-                        <div class="flex gap-3">
-                            ${project.liveUrl ? `<a href="${project.liveUrl}" target="_blank" class="text-blue-500 hover:underline">Live Demo</a>` : ''}
-                            ${project.githubUrl ? `<a href="${project.githubUrl}" target="_blank" class="${this.currentTemplate==='developer' ? 'text-[#d0d7e2]' : 'text-slate-700'} hover:underline">GitHub</a>` : ''}
+                        <div class="flex gap-4 items-center">
+                            ${project.liveUrl ? `<a href="${project.liveUrl}" target="_blank" class="inline-flex items-center gap-2 ${t.link}"><i class='fas fa-external-link-alt'></i><span>Live Demo</span></a>` : ''}
+                            ${project.githubUrl ? `<a href="${project.githubUrl}" target="_blank" class="inline-flex items-center gap-2 ${t.link}"><i class='fab fa-github'></i><span>GitHub</span></a>` : ''}
                         </div>
                     </div>`).join('')}
             </div>
@@ -1109,9 +1133,9 @@ class PortfolioBuilder {
             <h2 class="text-2xl font-bold mb-6 ${t.heading}">Services</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 ${d.services.map(s => `
-                    <div class="rounded-xl p-6 ${t.card}">
-                        <div class="text-2xl mb-2"><i class="${s.icon || 'fas fa-star'}"></i></div>
-                        <h3 class="text-lg font-semibold">${s.title || ''}</h3>
+                    <div class="rounded-xl p-6 ${t.card} ${t.cardHover}">
+                        <div class="text-3xl mb-3"><i class="${s.icon || 'fas fa-star'}"></i></div>
+                        <h3 class="text-lg font-semibold ${t.heading}">${s.title || ''}</h3>
                         <p class="${t.muted} mt-2">${s.description || ''}</p>
                     </div>`).join('')}
             </div>
@@ -1127,8 +1151,8 @@ class PortfolioBuilder {
             <h2 class="text-2xl font-bold mb-6 ${t.heading}">Testimonials</h2>
             <div class="grid md:grid-cols-2 gap-6">
                 ${d.testimonials.map(ti => `
-                    <div class="rounded-xl p-6 ${t.card}">
-                        <p class="italic">“${ti.quote || ''}”</p>
+                    <div class="rounded-xl p-6 ${t.card} ${t.cardHover}">
+                        <p class="italic ${t.quote}">"${ti.quote || ''}"</p>
                         <div class="mt-4 flex items-center gap-3 ${t.muted}">
                             ${ti.avatar ? `<img src="${ti.avatar}" class="w-10 h-10 rounded-full object-cover"/>` : '<div class="w-10 h-10 rounded-full bg-gray-200"></div>'}
                             <div>
@@ -1144,15 +1168,20 @@ class PortfolioBuilder {
     sectionProcess(extraWrapClasses = '') {
         const d = this.portfolioData;
         if (!(d.sectionVisibility.process && d.process.length)) return '';
+        const t = this.getTheme();
         return `
-        <section class=\"max-w-6xl mx-auto px-6 py-10 ${extraWrapClasses}\">
-            <h2 class=\"text-2xl font-bold mb-6\">Process</h2>
-            <ol class=\"space-y-4\">
+        <section class="max-w-6xl mx-auto px-6 py-10 ${extraWrapClasses}">
+            <h2 class="text-2xl font-bold mb-6 ${t.heading}">Process</h2>
+            <ol class="space-y-4">
                 ${d.process.map((p, i) => `
-                    <li class=\"bg-white border rounded-lg p-4\">
-                        <div class=\"text-sm text-gray-500\">Step ${i+1}</div>
-                        <div class=\"font-semibold\">${p.title || ''}</div>
-                        <p class=\"text-gray-600\">${p.description || ''}</p>
+                    <li class="${t.card} ${t.cardHover} p-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold">${i+1}</div>
+                            <div>
+                                <div class="font-semibold ${t.heading}">${p.title || ''}</div>
+                                <p class="${t.muted}">${p.description || ''}</p>
+                            </div>
+                        </div>
                     </li>`).join('')}
             </ol>
         </section>`;
@@ -1165,7 +1194,7 @@ class PortfolioBuilder {
         return `
         <section class="max-w-6xl mx-auto px-6 py-10 ${extraWrapClasses}">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                ${d.highlights.map(h => `<div class="rounded-xl p-4 text-center ${t.card}"><div class="text-3xl font-bold ${t.heading}">${h.value || ''}</div><div class="${t.muted}">${h.label || ''}</div></div>`).join('')}
+                ${d.highlights.map(h => `<div class="rounded-xl p-4 text-center ${t.card} ${t.cardHover}"><div class="text-3xl font-bold ${t.heading}">${h.value || ''}</div><div class="${t.muted}">${h.label || ''}</div></div>`).join('')}
             </div>
         </section>`;
     }
@@ -1178,7 +1207,7 @@ class PortfolioBuilder {
         <section class="max-w-6xl mx-auto px-6 py-10 ${extraWrapClasses}">
             <h2 class="text-2xl font-bold mb-6 ${t.heading}">Trusted By</h2>
             <div class="flex flex-wrap gap-3 items-center">
-                ${d.logos.map(l => `<div class="logo-pill ${t.card} ${this.currentTemplate==='developer' ? 'border-[#1f2937]' : ''}"><span class="${t.muted}">${l.label || ''}</span></div>`).join('')}
+                ${d.logos.map(l => `<div class="logo-pill ${t.card} ${this.currentTemplate==='developer' ? 'border-[#1f2937]' : ''} opacity-80 hover:opacity-100 transition"><span class="${t.muted}">${l.label || ''}</span></div>`).join('')}
             </div>
         </section>`;
     }
@@ -1191,7 +1220,7 @@ class PortfolioBuilder {
         <section class="max-w-6xl mx-auto px-6 py-10 ${extraWrapClasses}">
             <h2 class="text-2xl font-bold mb-6 ${t.heading}">Gallery</h2>
             <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                ${d.gallery.map(g => `<figure class='gallery-tile ${t.card}'><img src='${g.image}' class='w-full h-40 object-cover'/><figcaption class='p-2 text-sm ${t.muted}'>${g.caption || ''}</figcaption></figure>`).join('')}
+                ${d.gallery.map(g => `<figure class='gallery-tile ${t.card} ${t.cardHover}'><img src='${g.image}' class='w-full h-40 object-cover transition-transform duration-200 hover:scale-[1.02]'/><figcaption class='p-2 text-sm ${t.muted}'>${g.caption || ''}</figcaption></figure>`).join('')}
             </div>
         </section>`;
     }
@@ -1205,7 +1234,7 @@ class PortfolioBuilder {
             <h2 class="text-2xl font-bold mb-6 ${t.heading}">Experience</h2>
             <div class="space-y-6">
                 ${d.experience.map(exp => `
-                    <div class="rounded-xl p-6 ${t.card}">
+                    <div class="rounded-xl p-6 ${t.card} ${t.cardHover}">
                         <h3 class="text-xl font-semibold ${t.heading}">${exp.role || ''}${(exp.role && exp.company) ? ' at ' : ''}${exp.company || ''}</h3>
                         <p class="text-sm ${t.muted} mb-2">${[exp.start, exp.end].filter(Boolean).join(' - ')}</p>
                         <p class="${t.muted}">${exp.description || ''}</p>
@@ -1223,7 +1252,7 @@ class PortfolioBuilder {
             <h2 class="text-2xl font-bold mb-6 ${t.heading}">Education</h2>
             <div class="space-y-6">
                 ${d.education.map(edu => `
-                    <div class="rounded-xl p-6 ${t.card}">
+                    <div class="rounded-xl p-6 ${t.card} ${t.cardHover}">
                         <h3 class="text-xl font-semibold ${t.heading}">${edu.degree || ''}${(edu.degree && edu.field) ? ' — ' : ''}${edu.field || ''}</h3>
                         <p class="text-sm ${t.muted} mb-1">${edu.school || ''}</p>
                         <p class="text-sm ${t.muted} mb-2">${[edu.start, edu.end].filter(Boolean).join(' - ')}</p>
@@ -1242,7 +1271,7 @@ class PortfolioBuilder {
             <div class="flex flex-wrap justify-center gap-4">
                 ${d.social.map(social => {
                     const icons = { github: 'fab fa-github', linkedin: 'fab fa-linkedin', twitter: 'fab fa-twitter', website: 'fas fa-globe' };
-                    return `<a href="${social.url}" target="_blank" class="inline-flex items-center px-4 py-2 rounded-lg ${t.pill} hover:opacity-90"><i class="${icons[social.platform] || 'fas fa-link'} mr-2"></i>${social.label || social.platform.charAt(0).toUpperCase() + social.platform.slice(1)}</a>`;
+                    return `<a href="${social.url}" target="_blank" class="inline-flex items-center px-4 py-2 rounded-lg ${t.pill} hover:opacity-90 ${t.cardHover}"><i class="${icons[social.platform] || 'fas fa-link'} mr-2"></i>${social.label || social.platform.charAt(0).toUpperCase() + social.platform.slice(1)}</a>`;
                 }).join('')}
             </div>
         </section>`;
@@ -1251,19 +1280,23 @@ class PortfolioBuilder {
     // Template variants
     renderTemplateModern() {
         const d = this.portfolioData;
+        const t = this.getTheme();
         return `
-        <div class="template-${this.currentTemplate} min-h-full">
+        <div class="template-${this.currentTemplate} min-h-full ${t.surface}">
             <section class="relative overflow-hidden">
-                ${d.personal.heroImage ? `<img src="${d.personal.heroImage}" class="w-full h-64 object-cover" alt="Hero">` : ''}
+                ${d.personal.heroImage ? `<div class='relative h-64'>
+                    <img src="${d.personal.heroImage}" class="absolute inset-0 w-full h-full object-cover" alt="Hero">
+                    <div class='absolute inset-0 bg-gradient-to-t from-white to-transparent'></div>
+                </div>` : ''}
                 <div class="max-w-5xl mx-auto px-6 py-10">
                     <div class="grid md:grid-cols-3 gap-8 items-center">
                         <div class="md:col-span-2">
-                            <div class="inline-flex items-center text-xs px-3 py-1 rounded-full bg-green-100 text-green-700">${d.personal.availability || ''}</div>
-                            <h1 class="text-4xl md:text-5xl font-extrabold mt-4">${d.personal.fullName || 'Your Name'}</h1>
+                            ${d.personal.availability ? `<div class="inline-flex items-center text-xs px-3 py-1 rounded-full ${t.badge}"><i class='fas fa-circle-check mr-2'></i>${d.personal.availability}</div>` : ''}
+                            <h1 class="text-4xl md:text-5xl font-extrabold mt-4 ${t.heading}">${d.personal.fullName || 'Your Name'}</h1>
                             <p class="accent text-xl mt-2">${d.personal.title || ''}</p>
-                            <p class="text-gray-700 mt-4">${d.personal.tagline || d.personal.bio || ''}</p>
+                            <p class="${t.muted} mt-4">${d.personal.tagline || d.personal.bio || ''}</p>
                             <div class="mt-6 flex flex-wrap gap-3">
-                                ${d.personal.ctaPrimaryText ? `<a class="px-5 py-2 rounded-md bg-blue-600 text-white" href="${d.personal.ctaPrimaryUrl || '#'}" target="_blank">${d.personal.ctaPrimaryText}</a>` : ''}
+                                ${d.personal.ctaPrimaryText ? `<a class="px-5 py-2 rounded-md ${t.pill}" href="${d.personal.ctaPrimaryUrl || '#'}" target="_blank">${d.personal.ctaPrimaryText}</a>` : ''}
                                 ${d.personal.ctaSecondaryText ? `<a class="px-5 py-2 rounded-md border border-gray-300" href="${d.personal.ctaSecondaryUrl || '#'}" target="_blank">${d.personal.ctaSecondaryText}</a>` : ''}
                             </div>
                         </div>
@@ -1289,12 +1322,13 @@ class PortfolioBuilder {
     
     renderTemplateMinimal() {
         const d = this.portfolioData;
+        const t = this.getTheme();
         return `
-        <div class="template-${this.currentTemplate} min-h-full p-10">
+        <div class="template-${this.currentTemplate} min-h-full p-10 ${t.surface}">
             <header class="max-w-4xl mx-auto">
-                <h1 class="text-5xl font-serif">${d.personal.fullName || 'Your Name'}</h1>
-                <p class="text-gray-600 mt-2">${d.personal.title || ''}</p>
-                <p class="mt-6 text-gray-700">${d.personal.bio || ''}</p>
+                <h1 class="text-5xl font-serif ${t.heading}">${d.personal.fullName || 'Your Name'}</h1>
+                <p class="${t.muted} mt-2">${d.personal.title || ''}</p>
+                <p class="mt-6 ${t.muted}">${d.personal.bio || ''}</p>
             </header>
             ${this.sectionHighlights('max-w-4xl mx-auto mt-10')}
             ${this.sectionProjects('max-w-5xl mx-auto mt-12')}
@@ -1309,8 +1343,9 @@ class PortfolioBuilder {
     
     renderTemplateCreative() {
         const d = this.portfolioData;
+        const t = this.getTheme();
         return `
-        <div class="template-${this.currentTemplate} min-h-full">
+        <div class="template-${this.currentTemplate} min-h-full ${t.surface}">
             <section class="bg-gradient-to-r from-pink-500 to-orange-500 text-white">
                 <div class="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-2 gap-8 items-center">
                     <div>
@@ -1340,14 +1375,15 @@ class PortfolioBuilder {
     
     renderTemplateProfessional() {
         const d = this.portfolioData;
+        const t = this.getTheme();
         return `
-        <div class="template-${this.currentTemplate} min-h-full">
+        <div class="template-${this.currentTemplate} min-h-full ${t.surface}">
             <div class="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10">
-                <aside class="md:col-span-1 bg-white rounded-lg shadow p-6">
+                <aside class="md:col-span-1 bg-white rounded-lg shadow p-6 border border-slate-200">
                     ${d.personal.profilePhoto ? `<img src="${d.personal.profilePhoto}" class="w-28 h-28 rounded-full object-cover mb-4"/>` : ''}
-                    <h1 class="text-2xl font-bold">${d.personal.fullName || ''}</h1>
-                    <p class="text-gray-600">${d.personal.title || ''}</p>
-                    <div class="mt-4 space-y-1 text-sm text-gray-700">
+                    <h1 class="text-2xl font-bold ${t.heading}">${d.personal.fullName || ''}</h1>
+                    <p class="${t.muted}">${d.personal.title || ''}</p>
+                    <div class="mt-4 space-y-1 text-sm ${t.muted}">
                         ${d.personal.email ? `<div><i class='fas fa-envelope mr-2'></i>${d.personal.email}</div>` : ''}
                         ${d.personal.phone ? `<div><i class='fas fa-phone mr-2'></i>${d.personal.phone}</div>` : ''}
                         ${d.personal.location ? `<div><i class='fas fa-map-marker-alt mr-2'></i>${d.personal.location}</div>` : ''}
@@ -1394,7 +1430,7 @@ class PortfolioBuilder {
     
     // Open live preview in a new tab
     openLivePreview() {
-        const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${this.portfolioData.personal.fullName || 'Portfolio'}</title><script src="https://cdn.tailwindcss.com"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"><style>body{font-family:Inter,ui-sans-serif,system-ui,Arial}</style></head><body>${this.getPreviewHTML()}</body></html>`;
+        const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>${this.portfolioData.personal.fullName || 'Portfolio'}</title><script src="https://cdn.tailwindcss.com"></script><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"><style>body{font-family:Inter,ui-sans-serif,system-ui,Arial}.gallery-tile{border-radius:.5rem;overflow:hidden;border:1px solid #e5e7eb}.logo-pill{border:1px solid #e5e7eb;border-radius:.5rem;padding:.5rem .75rem;background:#fff;display:inline-flex;align-items:center;gap:.5rem}</style></head><body>${this.getPreviewHTML()}</body></html>`;
         const blob = new Blob([html], { type: 'text/html' });
         const url = URL.createObjectURL(blob);
         window.open(url, '_blank');
@@ -1414,12 +1450,9 @@ class PortfolioBuilder {
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .template-modern { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
-        .template-minimal { background: white; color: #333; }
-        .template-creative { background: #f7fafc; color: #2d3748; }
-        .template-professional { background: #f8f9fa; color: #212529; }
-        .template-developer { background: #0d1117; color: #c9d1d9; font-family: monospace; }
+        body { font-family: 'Inter', ui-sans-serif, system-ui, Arial; }
+        .gallery-tile { border-radius: 0.5rem; overflow: hidden; border: 1px solid #e5e7eb; }
+        .logo-pill { border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.5rem 0.75rem; background: #fff; display: inline-flex; align-items: center; gap: 0.5rem; }
     </style>
 </head>
 <body>
